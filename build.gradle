@@ -1,0 +1,43 @@
+plugins {
+  id 'java'
+  id 'application'
+  id 'com.diffplug.gradle.spotless' version '3.25.0'
+}
+
+version = '0.1.0'
+
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  implementation 'org.javassist:javassist:3.26.0-GA'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+}
+
+application {
+  mainClassName = 'it.unimi.di.prog2.cali.Cali'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+spotless {
+  enforceCheck false
+  java {
+    googleJavaFormat()
+  }
+}
+
+task fatJar(type: Jar) {
+  manifest {
+    attributes 'Main-Class': "${mainClassName}"
+    attributes 'Class-Path': './build/classes/java/main/ ./build/classes/java/test/'
+  }
+  baseName = "${rootProject.name}"
+  from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+  with jar
+}
