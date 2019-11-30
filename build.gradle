@@ -6,7 +6,6 @@ plugins {
 
 version = '0.1.0'
 
-
 repositories {
   jcenter()
 }
@@ -25,19 +24,13 @@ test {
   useJUnitPlatform()
 }
 
+jar {
+  from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 spotless {
   enforceCheck false
   java {
     googleJavaFormat()
   }
-}
-
-task fatJar(type: Jar) {
-  manifest {
-    attributes 'Main-Class': "${mainClassName}"
-    attributes 'Class-Path': './build/classes/java/main/ ./build/classes/java/test/'
-  }
-  baseName = "${rootProject.name}"
-  from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-  with jar
 }
