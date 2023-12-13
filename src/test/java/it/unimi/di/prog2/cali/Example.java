@@ -4,6 +4,7 @@ public class Example {
   public static int twice(int x) {
     return 2 * x;
   }
+
   public static double twice(double x) {
     return 2 * x;
   }

@@ -1,27 +1,28 @@
 plugins {
   id 'java'
   id 'application'
-  id 'com.diffplug.gradle.spotless' version '3.25.0'
+  id 'com.diffplug.spotless' version '6.22.0'
 }
 
-version = '0.1.0'
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+
+version = '0.1.1'
 
 repositories {
-  jcenter()
+  mavenCentral()
 }
 
 dependencies {
   implementation 'org.javassist:javassist:3.26.0-GA'
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
 }
 
 application {
-  mainClassName = 'it.unimi.di.prog2.cali.Cali'
-}
-
-test {
-  useJUnitPlatform()
+  mainClass = 'it.unimi.di.prog2.cali.Cali'
 }
 
 jar {
@@ -31,6 +32,8 @@ jar {
 spotless {
   enforceCheck false
   java {
-    googleJavaFormat()
+    googleJavaFormat('1.17.0')
+    removeUnusedImports()
+    endWithNewline()
   }
 }

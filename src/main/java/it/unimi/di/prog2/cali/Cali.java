@@ -14,10 +14,12 @@ public class Cali {
     Set<String> methods = Set.copyOf(argList.subList(1, argList.size()));
     int idx = fq.lastIndexOf('.');
     if (idx == -1) {
-      System.err.println("The first argument must be a fully qualified class name (containing at least a dot)");
+      System.err.println(
+          "The first argument must be a fully qualified class name (containing at least a dot)");
       return;
     }
-    Instrumentator instr = new Instrumentator(fq.substring(0, idx), "build/classes/java/instrumented");
+    Instrumentator instr =
+        new Instrumentator(fq.substring(0, idx), "build/classes/java/instrumented");
     instr.addLog(fq.substring(idx + 1), methods.size() == 0 ? null : methods);
   }
 }
