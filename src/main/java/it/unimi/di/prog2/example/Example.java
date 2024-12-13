@@ -1,4 +1,4 @@
-package it.unimi.di.prog2.cali;
+package it.unimi.di.prog2.example;
 
 public class Example {
   public static int twice(int x) {

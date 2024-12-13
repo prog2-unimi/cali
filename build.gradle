@@ -1,24 +1,39 @@
 plugins {
   id 'java'
   id 'application'
-  id 'com.diffplug.spotless' version '6.22.0'
+  id 'com.diffplug.spotless' version '6.25.0'
 }
 
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(17)
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 
-version = '0.1.1'
+version = '0.1.2'
 
 repositories {
   mavenCentral()
 }
 
 dependencies {
-  implementation 'org.javassist:javassist:3.26.0-GA'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.3'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  implementation 'org.javassist:javassist:3.30.2-GA'
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+  options.compilerArgs.add('-Xlint:all')
+  options.compilerArgs.add('-Werror') 
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+  defaultCharacterEncoding = 'UTF-8'
 }
 
 application {
@@ -32,8 +47,10 @@ jar {
 spotless {
   enforceCheck false
   java {
-    googleJavaFormat('1.17.0')
+    googleJavaFormat('1.24.0')
     removeUnusedImports()
+    indentWithSpaces(2)
     endWithNewline()
+    licenseHeaderFile 'src/licenseHeaderFile.txt'
   }
 }
